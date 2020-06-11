@@ -1,0 +1,341 @@
+//Ryan Hayes
+//https://studio.code.org/projects/applab/fQztM5C_EwTNRvNoN1xh8KWYbIg1YijINeGdU6gOZKg
+var gunLoaded;
+var gameStarted;
+var shipString;
+var enemiesMovingLeft1, enemiesMovingLeft2, enemiesMovingLeft3, enemiesMovingLeft4, enemiesMovingLeft5;
+var speed1, speed2, speed3, speed4, speed5; //5 random enemy speeds
+var enemiesRemaining;
+var startTime;
+var elapsedTime;
+
+
+//Go to next screen from welcome screen; initialize elements
+onEvent("buttonInitial", "click", function(event) {
+  initialize();
+});
+
+onEvent("playAgainButton", "click", function( ) {
+  initialize();
+});
+
+function initialize() {
+  showElement("shipImageRed");
+  showElement("shipImageBlue");
+  showElement("shipImageOrange");
+  showElement("shipImagePurple");
+  showElement("enemyImageOne");
+  showElement("enemyImageTwo");
+  showElement("enemyImageThree");
+  showElement("enemyImageFour");
+  showElement("enemyImageFive");
+  setPosition("shipImageRed", 105, 370);
+  setPosition("shipImageBlue", 105, 370);
+  setPosition("shipImageOrange", 105, 370);
+  setPosition("shipImagePurple", 105, 370);
+  
+  shipString = "shipImageRed"; //default
+  gunLoaded = true;
+  gameStarted = false;
+  enemiesRemaining = 5;
+  enemiesMovingLeft1 = false;
+  enemiesMovingLeft2 = false;
+  enemiesMovingLeft3 = false;
+  enemiesMovingLeft4 = false;
+  enemiesMovingLeft5 = false;
+  speed1 = Math.random(90) + 20;
+  speed2 = Math.random(80) + 20;
+  speed3 = Math.random(90) + 15;
+  speed4 = Math.random(80) + 20;
+  speed5 = Math.random(90) + 10;
+  
+  playSound("spacesound.mp3", true);
+  setScreen("shipScreen");
+}
+
+
+//Set the shipString image based on which button was pressed
+onEvent("buttonStartPurple", "click", function() {
+  hideElement("shipImageOrange");
+  hideElement("shipImageRed");
+  hideElement("shipImageBlue");
+  shipString = "shipImagePurple";
+  
+  setScreen("gameScreen");
+  playGame();
+});
+
+onEvent("buttonStartOrange", "click", function() {
+  hideElement("shipImagePurple");
+  hideElement("shipImageRed");
+  hideElement("shipImageBlue");
+  shipString = "shipImageOrange";
+  
+  setScreen("gameScreen");
+  playGame();
+});
+
+onEvent("buttonStartRed", "click", function() {
+  hideElement("shipImageOrange");
+  hideElement("shipImagePurple");
+  hideElement("shipImageBlue");
+  shipString = "shipImageRed";
+  
+  setScreen("gameScreen");
+  playGame();
+});
+
+onEvent("buttonStartBlue", "click", function() {
+  hideElement("shipImageOrange");
+  hideElement("shipImageRed");
+  hideElement("shipImagePurple");
+  shipString = "shipImageBlue";
+  
+  setScreen("gameScreen");
+  playGame();
+});
+
+//Call fire function based on current ship
+onEvent("gameScreen", "click", function() {
+  if(shipString == "shipImagePurple") {
+    onEvent("shipImagePurple", "click", function( ) {
+      fire();
+    });
+  } else if(shipString == "shipImageOrange") {
+    onEvent("shipImageOrange", "click", function( ) {
+      fire();
+    });
+  } else if(shipString == "shipImageRed") {
+    onEvent("shipImageRed", "click", function( ) {
+      fire();
+    });
+  } else if(shipString == "shipImageBlue") {
+    onEvent("shipImageBlue", "click", function( ) {
+      fire();
+    });
+  }
+});
+
+
+//Movement event handler, arrow keys to move
+onEvent("gameScreen", "keydown", function(event) {
+  var shipX = getXPosition(shipString);
+  var shipY = getYPosition(shipString);
+  var distance = 10;
+  
+  if(event.key == "Left") {
+    shipX = shipX - distance;
+  }
+  
+  if(event.key == "Right") {
+    shipX = shipX + distance;
+  }
+  
+  setPosition(shipString, shipX, shipY);
+  wrapImage(shipString);
+});
+
+
+//Wraps ship to opposite boundary
+function wrapImage(object) {
+  var objX = getXPosition(object);
+  var objY = getYPosition(object);
+  var objWidth = getProperty(object, "width");
+  
+  if(objX < 0 - objWidth/2) {
+    objX = 320 - objWidth/2;
+  } else if(objX > 320 - objWidth/2) {
+    objX = 0 - objWidth/2;
+  }
+  
+  setPosition(object, objX, objY);
+}
+
+
+//Fires laser
+function fire() {
+  if(gunLoaded) {
+    gunLoaded = false;
+    var shipX = getXPosition(shipString);
+    var shipY = getYPosition(shipString);
+    var shipHeight = getProperty(shipString, "height");
+    var shipWidth = getProperty(shipString, "width");
+    var laserHeight = getProperty("laserImage", "height");
+    var laserWidth = getProperty("laserImage", "width");
+    
+    var laserX = shipX + shipWidth/2 - 3.5;
+    var laserY = shipY + shipHeight/2 - laserHeight*2 + 10;
+    
+    playSound("sf_laser_15.mp3");
+    setPosition("laserImage", laserX, laserY);
+  }
+}
+
+
+//Timed loop for game 20x/sec
+function playGame() {
+  if(!gameStarted) {
+    gameStarted = true;
+    startTime = getTime();
+    setPosition("laserImage", -100, 0);
+    
+    timedLoop(50, function() {
+      updateTime();
+      moveLaser();
+      moveEnemy("enemyImageOne");
+      moveEnemy("enemyImageTwo");
+      moveEnemy("enemyImageThree");
+      moveEnemy("enemyImageFour");
+      moveEnemy("enemyImageFive");
+      
+      decideHit("enemyImageOne");
+      decideHit("enemyImageTwo");
+      decideHit("enemyImageThree");
+      decideHit("enemyImageFour");
+      decideHit("enemyImageFive");
+    });
+  }
+}
+
+
+//Keep track of time score
+function updateTime() {
+  var currentTime = getTime();
+  elapsedTime = currentTime - startTime;
+  elapsedTime = (elapsedTime/1000).toFixed(1);
+  setNumber("timeLabel", elapsedTime);
+  setText("scoreLabel", "Time: " + elapsedTime + "s");
+}
+
+
+//Moves laser
+function moveLaser() {
+  var laserX = getXPosition("laserImage");
+  var laserY = getYPosition("laserImage");
+  var speed = 30;
+  
+  laserY = laserY - speed;
+  setPosition("laserImage", laserX, laserY);
+  
+  if(laserY < -50) {
+    gunLoaded = true;
+  }
+}
+
+//Moves the 5 enemies
+function moveEnemy(name) {
+  var enemyX = getXPosition(name);
+  var enemyY = getYPosition(name);
+  var minX = 0;
+  var maxX = 280;
+  var distanceFromMax = maxX - enemyX;
+  //enemies have randomly generated speeds as global vars
+  
+  if(name == "enemyImageOne") {
+    if(enemyX > maxX) {
+      enemiesMovingLeft1 = true;
+    }
+    if(enemyX < minX) {
+      enemiesMovingLeft1 = false;
+    }
+    
+    if(enemiesMovingLeft1) {
+      enemyX = enemyX - speed1;
+    } else {
+      enemyX = enemyX + speed1;
+    }
+  }
+  
+  if(name == "enemyImageTwo") {
+    if(enemyX > maxX) {
+      enemiesMovingLeft2 = true;
+    }
+    if(enemyX < minX) {
+      enemiesMovingLeft2 = false;
+    }
+    
+    if(enemiesMovingLeft2) {
+      enemyX = enemyX - speed2;
+    } else {
+      enemyX = enemyX + speed2;
+    }
+  }
+  
+  if(name == "enemyImageThree") {
+    if(enemyX > maxX) {
+      enemiesMovingLeft3 = true;
+    }
+    if(enemyX < minX) {
+      enemiesMovingLeft3 = false;
+    }
+    
+    if(enemiesMovingLeft3) {
+      enemyX = enemyX - speed3;
+    } else {
+      enemyX = enemyX + speed3;
+    }
+  }
+  
+  if(name == "enemyImageFour") {
+    if(enemyX > maxX) {
+      enemiesMovingLeft4 = true;
+    }
+    if(enemyX < minX) {
+      enemiesMovingLeft4 = false;
+    }
+    
+    if(enemiesMovingLeft4) {
+      enemyX = enemyX - speed4;
+    } else {
+      enemyX = enemyX + speed4;
+    }
+  }
+  
+  if(name == "enemyImageFive") {
+    if(enemyX > maxX) {
+      enemiesMovingLeft5 = true;
+    }
+    if(enemyX < minX) {
+      enemiesMovingLeft5 = false;
+    }
+    
+    if(enemiesMovingLeft5) {
+      enemyX = enemyX - speed5;
+    } else {
+      enemyX = enemyX + speed5;
+    }
+  }
+  setPosition(name, enemyX, enemyY);
+}
+
+
+//Collision detection
+function decideHit(object) {
+  var laserX = getXPosition("laserImage");
+  var laserY = getYPosition("laserImage");
+  var objX = getXPosition(object);
+  var objY = getYPosition(object);
+  var laserWidth = getProperty("laserImage", "width");
+  var laserHeight = getProperty("laserImage", "height");
+  var objWidth = getProperty(object, "width");
+  var objHeight = getProperty(object, "height");
+  
+  if(laserX + laserWidth >= objX && laserX <= objX + objWidth) {
+    if(laserY + laserHeight >= objY && laserY <= objY + objHeight) {
+      if(!getProperty(object, "hidden")) {
+        playSound("Explosion-1.mp3");
+        hideElement(object);
+        setPosition("laserImage", 500, 0);
+        enemiesRemaining--;
+        
+        if(enemiesRemaining <= 0) {
+          stopTimedLoop();
+          stopSound("spacesound.mp3");
+          playSound("Ta-Da-SoundBible.com-1884170640.mp3");
+          
+          setScreen("gameOverScreen");
+        }
+      }
+    }
+  }
+}

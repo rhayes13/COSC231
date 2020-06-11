@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<!--     A simulated mini-mart at EMU     -->
+<!--      Event handling, DOM, arrays     -->
+
+<!--              MINI-MART               -->
+<!-- Created by Ryan Hayes on 04 Mar 2020 -->
+<!--       Last updated 04 Mar 2020       -->
+
+<head>
+  <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" 
+		  href="https://people.emich.edu/rhayes13/css/P7style.css">
+    <title> Ryan Hayes's Mini-Mart </title>
+	
+	<script>
+		var item = [];
+		var cost = [];
+		var quantity = [];
+		var tax = [];
+		var costVal;
+		
+		var checkbox = document.getElementById("tax");
+		
+		function addItem() {
+			if(document.getElementById("item").value != "" 
+				&& document.getElementById("cost").value != ""
+				&& document.getElementById("quantity").value != "") {
+					item.push(document.getElementById("item").value);
+					cost.push(document.getElementById("cost").value);
+					quantity.push(document.getElementById("quantity").value);
+					updateReceipt();
+			}
+		}
+		
+		function updateReceipt() {
+			costVal = 0;
+			text = "=============================================================";
+			text += "<br><h2> Mini-Mart EMU Receipt: R. Hayes </h2>";
+			text += "<table><tr>"
+					+ "<th> Item </th>"
+					+ "<th> Quantity </th>"
+					+ "<th> Cost </th>"
+					+ "</tr><tr>";
+			for(var i = 0; i < item.length; i++) {
+				text += "<td>" + item[i] + "</td><td>" + quantity[i]
+					+ "</td><td>" + "$" + cost[i] + "</td></tr>";
+				costVal += quantity[i] * cost[i];
+			}
+			text += "</table>";
+			document.getElementById("output").innerHTML = text;
+		}
+		
+		function calculateTotal() {
+			updateReceipt();
+			text += "<br><table><tr>"
+				+ "<td></td>" + "<td> Checkout Total: </td><td>" + "&nbsp $" + costVal.toFixed(2)
+				+ "</td></tr></table>";
+			document.getElementById("output").innerHTML = text;
+		}
+	</script>
+	
+  </head>
+
+<body>
+  <div>
+  <h1> ...Mini-Mart EMU Online... </h1> <br>
+  <p> Enter your item information </p>
+  <p> Submit the item by clicking on "Add to Cart". </p>
+  <p> Click on the Checkout button when done entering items. </p>
+  <p> (Note: item will only be added if all 3 fields are filled) </p> <br>
+  
+  <form>
+    <input id="item" type="text" placeholder="Item"/> <br>
+	<input id="cost" type="number" placeholder="Cost"/> <br>
+	<input id="quantity" type="number" placeholder="Quantity"/> <br>
+	<!--Check if taxable: <input id="tax" type="checkbox"/> <br>--> <br>
+	<input type="reset" onclick="addItem()" value="Add to Cart"/>
+	<input type="reset" onclick="calculateTotal()" value="Go to Checkout"/>
+  </form>
+  
+  <p id="output"></p>
+  </div>
+</body>
+
+</html>

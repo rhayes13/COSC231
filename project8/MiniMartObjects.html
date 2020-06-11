@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<!--     A simulated mini-mart at EMU     -->
+<!--      Using one array of objects      -->
+
+<!--             MINI-MART V2             -->
+<!-- Created by Ryan Hayes on 10 Mar 2020 -->
+<!--       Last updated 10 Mar 2020       -->
+
+<head>
+  <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" 
+		  href="https://people.emich.edu/rhayes13/css/P7style.css">
+    <title> Ryan Hayes's Mini-Mart V2 </title>
+	
+	<script>
+		var items_arr = [];
+		var costVal;
+		
+		function Item (item, cost, quantity) {
+			this.item_var = item;
+			this.cost_var = cost;
+			this.quantity_var = quantity;
+		}
+		
+		function addItem() {
+			if(document.getElementById("item").value != "" 
+				&& document.getElementById("cost").value != ""
+				&& document.getElementById("quantity").value != "") {
+					items_arr.push(new Item((document.getElementById("item").value),
+										   (document.getElementById("cost").value),
+										   (document.getElementById("quantity").value)));
+					updateReceipt();
+			}
+		}
+		
+		function updateReceipt() {
+			costVal = 0;
+			text = "=============================================================";
+			text += "<br><h2> Mini-Mart EMU Receipt: R. Hayes </h2>";
+			text += "<table><tr>"
+					+ "<th> Item </th>"
+					+ "<th> Quantity </th>"
+					+ "<th> Cost </th>"
+					+ "</tr><tr>";
+			for(var i = 0; i < items_arr.length; i++) {
+				text += "<td>" + items_arr[i].item_var + "</td><td>" + items_arr[i].quantity_var
+					+ "</td><td>" + "$" + items_arr[i].cost_var + "</td></tr>";
+				costVal += items_arr[i].quantity_var * items_arr[i].cost_var;
+			}
+			text += "</table>";
+			document.getElementById("output").innerHTML = text;
+		}
+		
+		function calculateTotal() {
+			updateReceipt();
+			text += "<br><table><tr>"
+				+ "<td></td>" + "<td> Checkout Total: </td><td>" + "&nbsp $" + costVal.toFixed(2)
+				+ "</td></tr></table>";
+			document.getElementById("output").innerHTML = text;
+		}
+	</script>
+	
+  </head>
+
+<body>
+  <div>
+  <h1> ...Mini-Mart EMU Online V2... </h1> <br>
+  <p> Enter your item information </p>
+  <p> Submit the item by clicking on "Add to Cart". </p>
+  <p> Click on the Checkout button when done entering items. </p>
+  <p> (Note: item will only be added if all 3 fields are filled) </p> <br>
+  
+  <form>
+    <input id="item" type="text" placeholder="Item"/> <br>
+	<input id="cost" type="number" placeholder="Cost"/> <br>
+	<input id="quantity" type="number" placeholder="Quantity"/> <br>
+	<!--Check if taxable: <input id="tax" type="checkbox"/> <br>--> <br>
+	<input type="reset" onclick="addItem()" value="Add to Cart"/>
+	<input type="reset" onclick="calculateTotal()" value="Go to Checkout"/>
+  </form>
+  
+  <p id="output"></p>
+  </div>
+</body>
+
+</html>

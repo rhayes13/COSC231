@@ -1,0 +1,166 @@
+/* Created by Ryan Hayes 04 Mar 2020 */
+/* Updated 04 Mar 2020 */
+
+/* General styles */
+body {
+	background-color:#ffdfaa;
+	color:#003729;
+	font-family:Verdana, Arial, Sans-Serif;
+	margin-bottom:30px;
+}
+
+a:link {color:#3B3176;}
+
+a:visited {color:#478B7C;}
+
+table {
+	margin-left:50px;
+	font-size:16px;
+}
+
+table, td, th {
+	border-collapse:collapse;
+	color:#3A3276;
+}
+
+td, ul, li {
+	font-size:16px;
+	font-family:Verdana, Arial, Sans-Serif;
+	color:#003729;
+	text-align:right;
+}
+
+th, td {
+	padding-left: 12px;
+	padding-right: 12px;
+}
+
+img {
+	width:225px;
+	text-align: center;
+}
+
+h1 {
+	text-align:center;
+}
+
+input {
+	font-size:16px;
+	margin-top:8px;
+}
+
+div {
+	border:2px solid black;
+	margin:25px;
+	padding:25px;
+	background-color:#D9BA86;
+	width:60%;
+	margin:auto;
+}
+
+th.tableHeader1 {
+	font-family:Arial, Verdana, Times, Sans-Serif;
+	font-size:30px;
+	width:80%;
+}
+
+th.tableHeader2 {
+	font-family:Arial, Verdana, Times, Sans-Serif;
+	text-align:center;
+	width:33%;
+	font-style:italic;
+	font-size:25px;
+}
+
+h1.header1 {
+	font-family:Arial, Verdana, Times, Sans-Serif;
+	text-align:center;
+	color:#3A3276;
+	font-size:30px;
+}
+
+h2.header2 {
+	font-family:Arial, Verdana, Times, Sans-Serif;
+	text-align:center;
+	color:#3A3276;
+	font-size:25px;
+}
+
+h2.withPadding {
+	font-style:italic;
+	font-family:Arial, Verdana, Times, Sans-Serif;
+	color:#3A3276;
+	padding-left:35px
+}
+
+table.tableBody {
+	margin:auto;
+	background-color:#ffdfaa;
+	width:90%
+}
+
+div.tableBreak {
+	margin-bottom:20px;
+	margin-top:30px;
+}
+
+ul.listClass {
+	padding-left:30px;
+}
+
+ol.listClass2 {
+	padding-left:100px;
+	padding-right:100px;
+	color:#003729;
+}
+
+td.imgClass {
+	text-align:center;
+	width:255px;
+}
+
+hr.hrClass {
+	border-color:#003729;
+	border-width:3px;
+	background-color:#ffdfaa;
+	height:1mm;
+	margin-left:30px;
+	margin-right:30px;
+}
+
+
+/* Navigation bar styles */
+ul.topnav {
+	background-color:#574D3E;
+	list-style-type:none;
+	width:100%;
+	height:50px;
+	margin:0;
+	padding:0;
+	position:fixed;
+	left:0;
+	top:0;
+	overflow:hidden;
+}
+
+li.topnav{
+	float:left;
+}
+
+li.topnav a.topnav{
+	color: #9DC7BC;
+	display:block;
+	text-align: center;
+	padding: 14px 16px ;
+	text-decoration: none;
+	font-size: 18px;
+}
+
+li.topnav a:hover {
+	background-color: grey;
+}
+
+li.a.active {
+	background-color: #4CAF50;
+	color: white;
+}

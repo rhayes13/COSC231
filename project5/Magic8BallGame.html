@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<!-- A classic Magic 8 Ball -->
+
+<!--             MAGIC 8 BALL             -->
+<!-- Created by Ryan Hayes on 12 Feb 2020 -->
+<!--       Last updated 12 Feb 2020       -->
+
+<head>
+      <meta charset="UTF-8">
+      <title> Ryan Hayes's Magic 8 Ball </title>
+	  <style>
+	    body {
+			font-family:Verdana, Times, Serif;
+			margin-left:25px;
+			margin-top:35px;
+		}
+		
+		h1, h2, p {
+			text-align:center;
+		}
+	  </style>
+      <script>
+        function choose(list) {
+			var rand = Math.floor(Math.random() * list.length);
+			return rand;
+        }
+		
+		function getAnswer() {
+			var answers = ['It is certain',
+							'It is decidedly so',
+							'Without a doubt',
+							'Yes definitely',
+							'You may rely on it',
+							'As I see it, yes',
+							'Most likely',
+							'Outlook good',
+							'Yes',
+							'Signs point to yes',
+							'Reply hazy try again',
+							'Ask again later',
+							'Better not tell you now',
+							'Cannot predict now',
+							'Concentrate and ask again',
+							'Don\'t count on it',
+							'My reply is no',
+							'My sources say no',
+							'Outlook not so good',
+							'Very doubtful'];
+							
+			var name = document.getElementById("editName").value;
+			var question = document.getElementById("editQuestion").value;
+			var story = "Hi, " + name + "! " + "The answer to " + 
+						"\"" + question + "\" is:";
+			var answer = "<<<" + "&emsp;" + answers[choose(answers)] + "&emsp;" + "   >>>";
+			
+			document.getElementById("outputStory").innerHTML = story;
+			document.getElementById("outputAnswer").innerHTML = answer;
+		}
+      </script>  
+</head>
+
+
+<body>
+  <h1> Magic 8 Ball... </h1>
+  <br>
+  <h2> Ask me a question and I will predict if it will become true! </h2>
+  <br>
+  <p> Enter your First Name: <input id="editName" type="text"></p>
+  <p> What is your question? <input id="editQuestion" type="text" 
+		size="50" onchange="getAnswer()"></p>
+  <br>
+  <h2 id="outputStory"></h2>
+  <h2 id="outputAnswer"></h2>
+</body>
+</html>
+

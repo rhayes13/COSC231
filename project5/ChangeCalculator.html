@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<!-- Determines the change given based on number entered by the user -->
+
+<!--          CHANGE CALCULATOR           -->
+<!-- Created by Ryan Hayes on 11 Feb 2020 -->
+<!--       Last updated 12 Feb 2020       -->
+
+<head>
+      <meta charset="UTF-8">
+      <title> Ryan Hayes's Change Calculator </title>
+	  <style>
+	    body {
+			margin-left:25px;
+		}
+	    table {
+			font-size:30px;
+			margin-left:20px;
+		}
+		th {
+			text-align:right;
+			font-size:20px;
+		}
+		td {
+			text-align:center;
+			padding-left:5px;
+			font-size:20px;
+			font-weight:bold;
+		}
+	  </style>
+	  <!--       Uses mod on float value money       -->
+      <script>
+        function compute() {
+			var money = parseFloat(document.getElementById("inputBox").value);
+			var editTwenties = Math.floor(money/20);
+			editTwenties = document.getElementById("editTwenties").innerHTML =
+							editTwenties;
+			money = money%20;
+			
+			var editTens = Math.floor(money/10);
+			editTens = document.getElementById("editTens").innerHTML =
+							editTens;
+			money = money%10;
+			
+			var editFives = Math.floor(money/5);
+			editFives = document.getElementById("editFives").innerHTML =
+							editFives;
+			money = money%5;
+			
+			var editOnes = Math.floor(money/1);
+			editOnes = document.getElementById("editOnes").innerHTML =
+							editOnes;
+			money = money%1;
+			
+        	var editQuarters = Math.floor(money/.25);
+			editQuarters = document.getElementById("editQuarters").innerHTML =
+							editQuarters;
+			money = money%.25;
+			
+			var editDimes = Math.floor(money/.10);
+			editDimes = document.getElementById("editDimes").innerHTML =
+							editDimes;
+			money = money%.10;
+			
+			var editNickels = Math.floor(money/.05);
+			editNickels = document.getElementById("editNickels").innerHTML =
+							editNickels;
+			money = money%.05;
+			
+			money = money * 100;
+			var editPennies = Math.round(money/1);
+			editPennies = document.getElementById("editPennies").innerHTML =
+							editPennies;
+        }
+      </script>  
+</head>
+
+
+<body>
+<h1> Change calculator by Ryan Hayes </h1>
+
+<p> Enter the amount of change a customer is to receive. <br> I will compute the 
+	number of twenties, tens, fives, ones, quarters, dimes, nickels, and pennies
+	they will receive. </p>
+<br>
+<p> Enter the amount of cash back: 
+	<input id ="inputBox" type="number" onchange="compute()"></p>
+<br>
+
+<!--       Table to align output       -->
+<h2> Change back...</h2>
+<table>
+  <tr>
+    <th id="twenties"> twenties: </th>
+	<td id="editTwenties"></td>
+  </tr>
+  <tr>
+    <th id="tens"> tens: </th>
+	<td id="editTens"></td>
+  </tr>
+  <tr>
+    <th id="fives"> fives: </th>
+	<td id="editFives"></td>
+  </tr>
+  <tr>
+    <th id="ones"> ones: </th>
+	<td id="editOnes"></td>
+  </tr>
+  <tr>
+    <th id="quarters"> quarters: </th>
+	<td id="editQuarters"></td>
+  </tr>
+  <tr>
+    <th id="dimes"> dimes: </th>
+	<td id="editDimes"></td>
+  </tr>
+  <tr>
+    <th id="nickels"> nickels: </th>
+	<td id="editNickels"></td>
+  </tr>
+  <tr>
+    <th id="pennies"> pennies: </th>
+	<td id="editPennies"></td>
+  </tr>
+</table>
+
+</body>
+</html>
+

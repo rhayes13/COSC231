@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<!--   A simulated music shop using JS    -->
+
+<!--              MUSIC SHOP              -->
+<!-- Created by Ryan Hayes on 19 Feb 2020 -->
+<!--       Last updated 19 Feb 2020       -->
+
+<head>
+  <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" 
+		  href="https://people.emich.edu/rhayes13/css/P4style.css">
+    <title> Ryan Hayes's Music Shop </title>
+	<script>
+		function changeColorOne() {
+			document.getElementById("guitarPick").style.background = "green";
+		}
+		function hoverOverOne() {
+			document.getElementById("guitarPick").style.background = "yellow";
+		}
+		function hoverOutOne() {
+			document.getElementById("guitarPick").style.background = "white";
+		}
+		
+		function changeColorTwo() {
+			document.getElementById("violinBow").style.background = "green";
+		}
+		function hoverOverTwo() {
+			document.getElementById("violinBow").style.background = "yellow";
+		}
+		function hoverOutTwo() {
+			document.getElementById("violinBow").style.background = "white";
+		}
+		
+		function changeColorThree() {
+			document.getElementById("weddingPerformance").style.background = "green";
+		}
+		function hoverOverThree() {
+			document.getElementById("weddingPerformance").style.background = "yellow";
+		}
+		function hoverOutThree() {
+			document.getElementById("weddingPerformance").style.background = "white";
+		}
+		
+		function getTotal() {
+			var gP = parseFloat(document.getElementById("guitarPick").value);
+			var vB = parseFloat(document.getElementById("violinBow").value);
+			var wP = parseFloat(document.getElementById("weddingPerformance").value);
+			var total = (0.49)*gP + (30)*vB + (400)*wP;
+			var out = "Your Total is $" + total;
+			document.getElementById("total").innerHTML = out;
+		}
+		
+		function resetForm() {
+			document.getElementById("guitarPick").style.background = "white";
+			document.getElementById("violinBow").style.background = "white";
+			document.getElementById("weddingPerformance").style.background = "white";
+			document.getElementById("total").innerHTML = "";
+			document.getElementById("form").reset();
+		}
+		
+	</script>
+  </head>
+
+<body>
+  <h2> Ryan Hayes's Music Shop </h2>
+  <form id = "form">
+	  <table>
+	  <tr>
+		<td> Item </td>
+		<td> Quantity </td>
+	  </tr>
+	  
+	  <tr>
+		<td> Guitar Pick ($0.49 ea) </td>
+		<td><input id = "guitarPick" type = "number" onchange = "changeColorOne()" onmouseover="hoverOverOne()" onmouseout="hoverOutOne()"></td>
+	  </tr>
+	  
+	  <tr>
+		<td> Violin Bow ($30.00 ea) </td>
+		<td><input id = "violinBow" type = "number" onchange = "changeColorTwo()" onmouseover="hoverOverTwo()" onmouseout="hoverOutTwo()"></td>
+	  </tr>
+	  
+	  <tr>
+		<td> Wedding Performance ($400.00 ea) </td>
+		<td><input id = "weddingPerformance" type = "number" onchange = "changeColorThree()" onmouseover="hoverOverThree()" onmouseout="hoverOutThree()"></td>
+	  </tr>
+	  </table>
+  </form>
+  
+  <br>
+  <button onclick="getTotal()"> Click for Total </button>
+  <button onclick="resetForm()"> Reset for new order </button>
+  
+  <h3 id="total"></h3>
+
+</body>
+
+</html>
